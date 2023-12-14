@@ -1,0 +1,127 @@
+version: '3'
+
+tasks:
+  install:
+    cmds:
+      - pip install Flask
+      - pip install sealights-python-agent
+  scan:
+    cmds:
+      - sl-python config --appname python-uwsgi-example --tokenfile ./sltoken.txt
+      - sl-python scan --buildsessionidfile ./buildSessionId.txt --tokenfile ./sltoken.txt
+  run:
+    env:
+      SL_DEBUG: true
+      SL_LAB_ID: some-lab-id
+    cmds:
+      - sl-python run --buildsessionidfile ./buildSessionId.txt --tokenfile ./sltoken.txt python ./app.py
+
+
+#/Users/liornabat/.pyenv/versions/3.11.6/lib/python3.11/multiprocessing/resource_tracker.py:254: UserWarning: resource_tracker: There appear to be 20 leaked semaphore objects to clean up at shutdown
+#  warnings.warn('resource_tracker: There appear to be %d '
+#WARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.
+# * Running on all addresses (0.0.0.0)
+# * Running on http://127.0.0.1:9092
+# * Running on http://172.20.2.90:9092
+#Press CTRL+C to quit
+#^CFatal Python error: init_import_site: Failed to import the site module
+#Python runtime state: initialized
+#Traceback (most recent call last):
+#  activate:
+#    dir: venv/Scripts
+#    cmds:
+#      - activate.bat
+#  install:
+#    cmds:
+#      - pip install D:/Development/projects/sealights/SL.OnPremise.Agents.Python
+#  install-mac:
+#    cmds:
+#      - pip install ../SL.OnPremise.Agents.Python
+#  pip:
+#    cmds:
+#      - pip install -r requirements_sealights.txt
+#  bsid:
+#    env:
+##      SL_DEBUG: true
+#    cmds:
+#      - sl-python config --appname calc-demo-python --tokenfile ./sltoken.txt --exclude "*tests*,*venv*"
+#  prbsid:
+#    env:
+##      SL_DEBUG: true
+#    cmds:
+#      - sl-python prconfig --appname calc-demo-python --tokenfile ./sltoken.txt --exclude "*tests*,*venv*" --targetbranch main --latestcommit asd3asd --pullrequestnumber 123 --repourl dasdasdasdas
+#  scan:
+#    env:
+##      SL_DEBUG: true
+#      SL_DEBUG_CALLS: true
+#    cmds:
+#      - sl-python scan --buildsessionidfile ./buildSessionId.txt --tokenfile ./sltoken.txt --withlineconverage True
+#  unittest:
+#    env:
+##      SL_DEBUG: true
+#    cmds:
+#      - sl-python unittest --buildsessionidfile ./buildSessionId.txt --tokenfile ./sltoken.txt --teststage stage1
+#  pytest:
+#    env:
+##      SL_DEBUG: true
+#    cmds:
+#      - sl-python pytest --buildsessionidfile ./buildSessionId.txt --tokenfile ./sltoken.txt --teststage stage3 --testgroupid groupid
+#  nose:
+#    env:
+##      SL_DEBUG: true
+#    cmds:
+#      - sl-python nose --buildsessionidfile ./buildSessionId.txt --tokenfile ./sltoken.txt --teststage stage3  ./tests/nose/test_main.py
+#  start:
+#    env:
+#      SL_LAB_ID: some-lab-id
+#      SL_DEBUG_CALLS: true
+#    cmds:
+#      - sl-python start --buildsessionidfile ./buildSessionId.txt --tokenfile ./sltoken.txt --teststage stage1 --testgroupid groupid
+#  end:
+#    env:
+#      SL_LAB_ID: some-lab-id
+#      SL_DEBUG_CALLS: true
+#    cmds:
+#      - sl-python end --buildsessionidfile ./buildSessionId.txt --tokenfile ./sltoken.txt --teststage stage1 --testgroupid groupid
+#  run:
+#    env:
+#      SL_DEBUG: false
+#      SL_LAB_ID: some-lab-id
+#      SL_DEBUG_CALLS: true
+#    cmds:
+#      - sl-python run --buildsessionidfile ./buildSessionId.txt --tokenfile ./sltoken.txt python ./main.py
+#  run-module:
+#    env:
+#      SL_DEBUG: true
+#    cmds:
+#      - sl-python run --buildsessionidfile ./buildSessionId.txt --tokenfile ./sltoken.txt python -m local_dev.flask_run
+#  pcf:
+#    cmds:
+#      - cf target -o "system" -s "sealights"
+#      - cf push calc-demo -b https://github.com/cloudfoundry/python-buildpack.git
+#  pcf-local:
+#    cmds:
+#      - cf target -o "system" -s "sealights"
+##      - cf push calc-demo -b file://D:/Development/projects/sealights/python-buildpack
+#      - cf push calc-demo -b https://github.com/liornabat-sealights/python-buildpack.git
+#  pcf-service:
+#    cmds:
+#      - cf cups sealights -p pcf_service.json
+#  pcf-ci:
+#    cmds:
+#      - task: install
+#      - task: bsid
+#      - task: scan
+#      - task: pcf-local
+#      - cf bs calc-demo sealights
+#      - cf restage calc-demo
+#  ci:
+#    cmds:
+#      - task: install-mac
+#      - task: bsid
+#      - task: scan
+#
+## Important - python pcf buildpack need more setting after creating the env:
+## Enable TCP routing in Networking
+## Apply again the setting
+## run cf create-shared-domain tcp.[ENV-NAME].cf-app.com --router-group default-tcp
